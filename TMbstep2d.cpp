@@ -54,7 +54,7 @@ const T lx0   = 2.2;//20.0;   // length of channel in meter
 const T ly0   = 0.411;//1.5;    // height of channel in meter
 const int N = 1;        // resolution of the model
 const int M = 1;        // time discretization refinement
-const T maxPhysT = 10.; // max. simulation time in s, SI unit
+const T maxPhysT = 20.; // max. simulation time in s, SI unit
 
 
 // Stores geometry information in form of material numbers
@@ -185,7 +185,7 @@ void getResults( SuperLattice2D<T,DESCRIPTOR>& sLattice,
     vtmWriter.createMasterFile();
   }
 
-/*  // Writes every 0.2  seconds
+  // Writes every 0.2  seconds
   if ( iT%converter.numTimeSteps( 10.0 )==0 ) {
     SuperLatticePhysVelocity2D<T,DESCRIPTOR> velocity( sLattice, converter );
     SuperLatticePhysPressure2D<T,DESCRIPTOR> pressure( sLattice, converter );
@@ -199,10 +199,10 @@ void getResults( SuperLattice2D<T,DESCRIPTOR>& sLattice,
     BlockGifWriter<T> gifWriter;
     // write image to file system
     gifWriter.write( planeReduction, iT, "vel" );
-  }*/
+  }
 
   // Writes every 0.1 simulated
-  if ( iT%converter.numTimeSteps( 5.0 )==0 ) {
+  if ( iT%converter.numTimeSteps( 10.0 )==0 ) {
     // write to terminal
     timer.update( iT );
     timer.printStep();

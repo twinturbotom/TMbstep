@@ -24,7 +24,7 @@ def build_que_list(cmd_args):
     que_list = []
     for i,c in enumerate(cmd_args):
         oxy = ' '.join( map(str,c) )
-        ex = f'./TMbstep2d {oxy} tmp/{i}'
+        ex = f'./TMbstep2d {oxy} tmp/{i}/ '
         ql.write(f'{ex}\n')
         que_list.append(ex)
     ql.close()
