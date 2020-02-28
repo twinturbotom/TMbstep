@@ -20,6 +20,7 @@ class VTK_data:
                 self.geometries.append(vtk_geom_to_np( vtm_path.as_posix() ))
             if 'bstep2d_iT0100000' in vtm_path.as_posix():
                 self.results.append(vtk_results_to_np( vtm_path.as_posix() )) 
+        print(f'Data Loaded\n\t# of geometries: {len(self.geometries)}\n\t# of results: {len(self.results)}')
 
 
 def vtk_results_to_np(results_vtm):
