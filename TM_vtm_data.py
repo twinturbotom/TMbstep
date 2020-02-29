@@ -2,16 +2,25 @@ import vtk
 import numpy as np
 from vtk.util.numpy_support import *
 from pathlib import Path
-
+import h5py
 
 class VTK_data:
-    def __init__(self,base_dir='tmp'):
+    def __init__(self,base_dir='sims',from_file=False):
         self.base_dir = Path(base_dir)
         self.geometries   = []
         self.results = []
+        if from_file:
+        	print('Loading from file')
+        	hf = h5py.File('VTK_data.h5','r')
+        	self.geometries = hf.get('geometries')
+        	self.results = hf.get('results')
+        else:
+        	print('Auto loading data\n')
+        	self.load_data()
 
     def load_data(self):
-        print('loading data')
+
+        print('loading data...')
         vtm_path_list = self.base_dir.glob('**/*.vtm')
         for vtm_path in vtm_path_list:
          #print(path)
@@ -20,8 +29,15 @@ class VTK_data:
                 self.geometries.append(vtk_geom_to_np( vtm_path.as_posix() ))
             if 'bstep2d_iT0100000' in vtm_path.as_posix():
                 self.results.append(vtk_results_to_np( vtm_path.as_posix() )) 
+        self.geometries = np.stack(self.geometries, axis=0)
+        self.results = np.stack(self.results, axis=0)
         print(f'Data Loaded\n\t# of geometries: {len(self.geometries)}\n\t# of results: {len(self.results)}')
 
+    def write_data(self,file_out='VTK_data.h5'):
+    	hf = h5py.File(file_out,'w')
+    	hf.create_dataset('geometries',data=data.geometries)
+    	hf.create_dataset('results',data=data.results)
+    	hf.close()
 
 def vtk_results_to_np(results_vtm):
 
